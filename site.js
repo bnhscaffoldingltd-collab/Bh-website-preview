@@ -1,15 +1,8 @@
 (function () {
-  var JOBS = window.BH_JOBS || [];
-  var LABELS = { residential: "Residential", flats: "Flats & housing", commercial: "Commercial & specialist", roofing: "Roofing" };
-  var ARROW = '<svg class="arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg>';
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
 
   // Year + mobile menu
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
-  document.querySelectorAll("[data-count]").forEach(function (el) { el.textContent = JOBS.length; });
-  document.querySelectorAll("[data-photo-count]").forEach(function (el) {
-    el.textContent = JOBS.reduce(function (n, j) { return n + j.photos.length; }, 0);
-  });
   var menuBtn = document.querySelector(".menu-btn"), menu = document.getElementById("menu");
   if (menuBtn) {
     menuBtn.addEventListener("click", function () {
@@ -23,27 +16,24 @@
   }
 
   // Gallery
+  var PHOTOS = window.BH_PHOTOS || [];
+  var LABELS = { residential: "Residential", flats: "Flats & housing", commercial: "Commercial & specialist", roofing: "Roofing" };
   var grid = document.getElementById("jobs");
   if (!grid) return;
-  var mode = grid.dataset.mode; // "featured" (homepage) or "all"
-  var list = mode === "featured" ? JOBS.filter(function (j) { return j.featured; }).slice(0, 6) : JOBS;
-  var countEl = document.getElementById("shown");
+  var home = grid.dataset.mode === "featured";
+  // Mix the order: first photo of every set, then second photos, and so on
+  var seen = {};
+  var mixed = PHOTOS.map(function (p, i) { var k = p.label; seen[k] = (seen[k] || 0) + 1; return { p: p, r: seen[k], i: i }; })
+    .sort(function (x, y) { return x.r - y.r || x.i - y.i; }).map(function (x) { return x.p; });
+  var base = home ? PHOTOS.filter(function (p) { return p.home; }).slice(0, 6) : mixed;
+  var shown = base;
 
-  function card(j) {
-    var i = JOBS.indexOf(j);
-    return '<button class="job" data-i="' + i + '">' +
-      '<div class="job-img"><img src="' + esc(j.photos[0]) + '" alt="' + esc(j.title) + '" loading="lazy">' +
-      (j.photos.length > 1 ? '<span class="n">' + j.photos.length + ' photos</span>' : '') +
-      '<span class="go">' + ARROW + '</span></div>' +
-      '<span class="tag">' + esc(j.tag || LABELS[j.category]) + '</span>' +
-      '<h3>' + esc(j.title) + '</h3>' +
-      (j.location ? '<div class="loc">' + esc(j.location) + '</div>' : '') +
-      '<p>' + esc(j.summary) + '</p></button>';
-  }
   function render(filter) {
-    var shown = list.filter(function (j) { return filter === "all" || j.category === filter; });
-    grid.innerHTML = shown.map(card).join("");
-    if (countEl) countEl.textContent = shown.length + (shown.length === 1 ? " project" : " projects") + " shown";
+    shown = base.filter(function (p) { return filter === "all" || p.category === filter; });
+    grid.innerHTML = shown.map(function (p, i) {
+      return '<button class="job" data-i="' + i + '" aria-label="' + esc(p.label) + '"><div class="job-img"><img src="' + esc(p.src) + '" alt="' + esc(p.label) + '" loading="lazy">' +
+        '<span class="cap">' + esc(p.label) + '</span></div></button>';
+    }).join("");
   }
   var start = "all";
   try { var h = location.hash.replace("#", ""); if (LABELS[h]) start = h; } catch (e) {}
@@ -57,36 +47,20 @@
   });
   render(start);
 
-  // Lightbox
-  var lb = document.getElementById("lb");
-  var stage = document.getElementById("lbStage"), thumbs = document.getElementById("lbThumbs");
-  var cur = null, idx = 0;
+  // Lightbox: steps through every photo currently shown
+  var lb = document.getElementById("lb"), stage = document.getElementById("lbStage"), idx = 0;
   function show(n) {
-    var ph = cur.photos;
-    idx = (n + ph.length) % ph.length;
-    var img = stage.querySelector("img");
-    img.src = ph[idx];
-    img.alt = cur.title + " — photo " + (idx + 1) + " of " + ph.length;
-    var multi = ph.length > 1;
-    document.getElementById("lbPrev").hidden = !multi;
-    document.getElementById("lbNext").hidden = !multi;
-    document.getElementById("lbCounter").textContent = multi ? "Photo " + (idx + 1) + " of " + ph.length : "";
-    thumbs.innerHTML = multi ? ph.map(function (src, k) {
-      return '<button data-k="' + k + '" aria-label="Photo ' + (k + 1) + '" aria-current="' + (k === idx) + '"><img src="' + esc(src) + '" alt=""></button>';
-    }).join("") : "";
-    // preload the next photo
-    if (multi) { var pre = new Image(); pre.src = ph[(idx + 1) % ph.length]; }
+    idx = (n + shown.length) % shown.length;
+    var p = shown[idx], img = stage.querySelector("img");
+    img.src = p.src; img.alt = p.label;
+    document.getElementById("lbTag").textContent = LABELS[p.category];
+    document.getElementById("lbTitle").textContent = p.label;
+    var pre = new Image(); pre.src = shown[(idx + 1) % shown.length].src;
   }
   grid.addEventListener("click", function (e) {
     var c = e.target.closest(".job"); if (!c) return;
-    cur = JOBS[+c.dataset.i];
-    document.getElementById("lbTag").textContent = (cur.tag || LABELS[cur.category]) + (cur.location ? " · " + cur.location : "");
-    document.getElementById("lbTitle").textContent = cur.title;
-    document.getElementById("lbSummary").textContent = cur.summary;
-    show(0);
-    lb.showModal();
+    show(+c.dataset.i); lb.showModal();
   });
-  thumbs.addEventListener("click", function (e) { var t = e.target.closest("button"); if (t) show(+t.dataset.k); });
   document.getElementById("lbPrev").onclick = function () { show(idx - 1); };
   document.getElementById("lbNext").onclick = function () { show(idx + 1); };
   document.getElementById("lbClose").onclick = function () { lb.close(); };
@@ -95,11 +69,10 @@
     if (e.key === "ArrowLeft") show(idx - 1);
     if (e.key === "ArrowRight") show(idx + 1);
   });
-  // swipe on phones
   var sx = null;
   stage.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; }, { passive: true });
   stage.addEventListener("touchend", function (e) {
-    if (sx === null || cur.photos.length < 2) return;
+    if (sx === null) return;
     var dx = e.changedTouches[0].clientX - sx; sx = null;
     if (Math.abs(dx) > 40) show(idx + (dx < 0 ? 1 : -1));
   });

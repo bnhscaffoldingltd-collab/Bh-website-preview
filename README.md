@@ -6,13 +6,11 @@ empty, and set the output directory to `/`).
 
 - `index.html` — homepage
 - `work.html` — the full "Our Work" gallery
-- `jobs.js` — **the list of jobs; edit this to add or change projects**
+- `photos.js` — **the gallery photos and their labels; edit this to add photos**
 - `site.js` — gallery, filters and photo viewer
 - `styles.css` — styling (B&H red `#c91d2a`)
 - `images/jobs/` — job photos (web-sized; plates, house numbers and people blurred)
 
-## Adding a job
-1. Put the photos in `images/jobs/` named like `my-job-1.webp`, `my-job-2.webp`.
-2. Copy an entry in `jobs.js`, fill in the title, category, summary and
-   `photos: p("my-job", 2)` (the number is how many photos).
-3. Add a town in `location` if you're happy to show it.
+## Adding photos
+1. Put them in `images/jobs/` named like `my-job-1.webp`, `my-job-2.webp`.
+2. Add one line to `photos.js`, e.g. `add("residential", "Victorian terrace", "my-job", 2);`
