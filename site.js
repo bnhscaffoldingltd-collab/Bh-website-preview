@@ -15,77 +15,91 @@
     if (e.key === "Escape" && nav.classList.contains("open")) { setMenu(false); menuBtn.focus(); }
   });
 
-  /* ---------- Hero slideshow ---------- */
+  /* ---------- Hero: drifting photographs that dissolve into each other ---------- */
   var hero = document.querySelector(".hero");
   var slides = Array.prototype.slice.call(hero.querySelectorAll(".slide"));
-  var dots = Array.prototype.slice.call(hero.querySelectorAll(".dot"));
-  var countEl = hero.querySelector(".slide-count"), textEl = hero.querySelector(".slide-text");
-  var DURATION = 7000, current = 0, timer = null, playing = !reduced, userPaused = reduced;
-  hero.style.setProperty("--dur", DURATION + "ms");
+  var caption = hero.querySelector(".hero-caption");
+  var SHOW = 6500, FADE = 2000, current = 0, timer = null;
+  hero.style.setProperty("--drift", (SHOW + FADE + 600) + "ms");
 
-  // Load later slides only after the first photo has loaded
   function hydrate(slide) {
     slide.querySelectorAll("[data-srcset]").forEach(function (el) { el.srcset = el.dataset.srcset; el.removeAttribute("data-srcset"); });
     slide.querySelectorAll("img[data-src]").forEach(function (el) { el.src = el.dataset.src; el.removeAttribute("data-src"); });
   }
-  function hydrateRest() { slides.slice(1).forEach(hydrate); }
-  var firstImg = slides[0].querySelector("img");
-  if (firstImg.complete) setTimeout(hydrateRest, 300);
-  else firstImg.addEventListener("load", function () { setTimeout(hydrateRest, 300); }, { once: true });
-  window.addEventListener("load", function () { setTimeout(hydrateRest, 600); });
-
-  function go(n, fromUser) {
-    var next = (n + slides.length) % slides.length;
-    hydrate(slides[next]);
-    slides.forEach(function (s, i) {
-      var on = i === next;
-      s.classList.toggle("is-active", on);
-      if (on) s.removeAttribute("aria-hidden"); else s.setAttribute("aria-hidden", "true");
-    });
-    dots.forEach(function (d, i) {
-      d.classList.toggle("is-active", i === next);
-      d.classList.toggle("is-done", i < next);
-      if (i === next) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
-    });
-    // restart the progress animation on the active dot
-    var bar = dots[next].querySelector("span"); bar.style.animation = "none"; void bar.offsetWidth; bar.style.animation = "";
+  // Size the photo to cover the frame, then set the start and end of its slow camera move
+  function layout(slide) {
+    var img = slide.querySelector("img");
+    if (!img.naturalWidth) return false;
+    var fw = hero.clientWidth, fh = hero.clientHeight;
+    var s = Math.max(fw / img.naturalWidth, fh / img.naturalHeight);
+    var w = img.naturalWidth * s, h = img.naturalHeight * s;
+    var from = slide.dataset.from.split(",").map(Number), to = slide.dataset.to.split(",").map(Number);
+    var st = slide.style;
+    st.setProperty("--w", w + "px"); st.setProperty("--h", h + "px");
+    st.setProperty("--x0", (fw - w) * from[0] + "px"); st.setProperty("--y0", (fh - h) * from[1] + "px"); st.setProperty("--s0", from[2]);
+    st.setProperty("--x1", (fw - w) * to[0] + "px");   st.setProperty("--y1", (fh - h) * to[1] + "px");   st.setProperty("--s1", to[2]);
+    slide.classList.add("is-laid");
+    return true;
+  }
+  function startMove(slide) {
+    if (reduced || !layout(slide)) return;
+    slide.classList.remove("is-moving"); void slide.offsetWidth; slide.classList.add("is-moving");
+  }
+  function showSlide(next) {
+    var prev = slides[current], slide = slides[next];
+    if (slide === prev) return;
+    startMove(slide);
+    prev.classList.remove("is-active"); prev.classList.add("is-prev"); prev.setAttribute("aria-hidden", "true");
+    slide.classList.add("is-active"); slide.removeAttribute("aria-hidden");
+    setTimeout(function () { prev.classList.remove("is-prev", "is-moving"); }, FADE + 100);
+    caption.classList.add("is-out");
+    setTimeout(function () { caption.textContent = slide.dataset.caption; caption.classList.remove("is-out"); }, 700);
     current = next;
-    countEl.textContent = "0" + (next + 1) + " / 0" + slides.length;
-    textEl.textContent = slides[next].querySelector("figcaption").textContent;
-    hero.querySelector(".slide-caption").setAttribute("aria-live", fromUser ? "polite" : "off");
+  }
+  function advance() {
+    var next = (current + 1) % slides.length, img = slides[next].querySelector("img");
+    hydrate(slides[next]);
+    var ready = img.decode ? img.decode() : Promise.resolve();
+    ready.then(function () { showSlide(next); }, function () { /* not loaded yet: keep the current photo */ })
+      .then(function () { hydrate(slides[(next + 1) % slides.length]); schedule(); });
+  }
+  function schedule() { clearTimeout(timer); if (!reduced && !document.hidden && inView) timer = setTimeout(advance, SHOW); }
+
+  var inView = true, first = slides[0].querySelector("img");
+  function begin() {
+    startMove(slides[0]);
+    hero.classList.add("is-ready");
+    setTimeout(function () { hydrate(slides[1]); }, 400);   // the next photo loads only after the first is showing
     schedule();
   }
-  function schedule() {
-    clearTimeout(timer);
-    if (playing) timer = setTimeout(function () { go(current + 1); }, DURATION);
+  if (first.complete && first.naturalWidth) begin(); else first.addEventListener("load", begin, { once: true });
+
+  function syncPause() {
+    var paused = document.hidden || !inView;
+    hero.classList.toggle("is-paused", paused);
+    if (paused) clearTimeout(timer); else schedule();
   }
-  function setPlaying(p) {
-    playing = p;
-    hero.classList.toggle("is-playing", p);
-    var btn = hero.querySelector(".pause");
-    btn.setAttribute("aria-label", p ? "Pause slideshow" : "Play slideshow");
-    if (p) go(current); else clearTimeout(timer);
-  }
-  hero.querySelector(".next").addEventListener("click", function () { go(current + 1, true); });
-  hero.querySelector(".prev").addEventListener("click", function () { go(current - 1, true); });
-  hero.querySelector(".pause").addEventListener("click", function () { userPaused = playing; setPlaying(!playing); });
-  dots.forEach(function (d, i) { d.addEventListener("click", function () { go(i, true); }); });
-  hero.addEventListener("keydown", function (e) {
-    if (e.target.closest("input,textarea")) return;
-    if (e.key === "ArrowRight") go(current + 1, true);
-    if (e.key === "ArrowLeft") go(current - 1, true);
-  });
-  // Pause while the tab is hidden or the slideshow is scrolled out of view
-  var visible = true;
-  function syncAuto() { if (!userPaused) setPlaying(visible && !document.hidden); }
-  document.addEventListener("visibilitychange", syncAuto);
+  document.addEventListener("visibilitychange", syncPause);
   if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; syncAuto(); }, { threshold: 0.2 }).observe(hero);
+    new IntersectionObserver(function (e) { inView = e[0].isIntersecting; syncPause(); }, { threshold: 0.05 }).observe(hero);
   }
-  // Pause when keyboard focus is inside the controls, so users are not interrupted
-  hero.querySelector(".ctrls").addEventListener("focusin", function () { if (playing) clearTimeout(timer); });
-  hero.querySelector(".ctrls").addEventListener("focusout", function () { schedule(); });
-  setPlaying(playing);
+  var rz;
+  window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(function () { slides.forEach(function (s) { if (s.classList.contains("is-laid")) layout(s); }); }, 150); });
+
+  /* ---------- Scroll-in ---------- */
+  if (!reduced && "IntersectionObserver" in window) {
+    var groups = [".intro h2", ".intro-grid > div", ".head", ".svc", ".proj", ".steps li", ".enq-info", ".quote-form"];
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    groups.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) {
+        var sibs = Array.prototype.slice.call(el.parentNode.children).filter(function (c) { return c.matches(sel); });
+        el.style.setProperty("--d", Math.min(sibs.indexOf(el), 4) * 110 + "ms");
+        el.classList.add("rv"); io.observe(el);
+      });
+    });
+  }
 
   /* ---------- Enlarged photo viewer ---------- */
   var viewer = document.getElementById("viewer");

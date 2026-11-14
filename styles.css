@@ -50,43 +50,40 @@ p{margin:0}
 .menu-btn[aria-expanded="true"] .menu-icon::before{transform:translateY(6px) rotate(45deg)}
 .menu-btn[aria-expanded="true"] .menu-icon::after{transform:translateY(-6px) rotate(-45deg)}
 
-/* Hero slideshow */
-.hero{position:relative;height:min(calc(100svh - var(--header)), 860px);min-height:560px;background:var(--black);color:var(--white);overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+/* Hero: slow-moving photographs that dissolve into one another (no controls) */
+.hero{position:relative;height:min(calc(100svh - var(--header)), 1000px);min-height:560px;background:var(--black);color:var(--white);overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
 .slides,.slide,.hero-shade{position:absolute;inset:0;margin:0}
-.slide{opacity:0;transition:opacity 1.4s ease}
-.slide.is-active{opacity:1}
-.slide picture,.slide img{width:100%;height:100%}
-.slide img{object-fit:cover;transform:scale(1.001)}
-.slide.is-active img{animation:drift 9s ease-out forwards}
-@keyframes drift{from{transform:scale(1.001)}to{transform:scale(1.045)}}
-.slide figcaption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.hero-shade{background:
-  linear-gradient(90deg, rgba(10,12,12,.86) 0%, rgba(10,12,12,.62) 38%, rgba(10,12,12,.12) 72%, rgba(10,12,12,0) 100%),
-  linear-gradient(0deg, rgba(10,12,12,.78) 0%, rgba(10,12,12,0) 42%)}
-.hero-copy{position:relative;width:100%;padding-bottom:40px}
+.slide{opacity:0;overflow:hidden;z-index:0}
+.slide.is-prev{opacity:1;z-index:1}
+.slide.is-active{opacity:1;z-index:2}
+.hero.is-ready .slide.is-active{transition:opacity 2s ease-in-out}
+.slide img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;max-width:none}
+.slide.is-laid img{width:var(--w);height:var(--h);object-fit:fill;transform-origin:50% 50%;transform:translate3d(var(--x0),var(--y0),0) scale(var(--s0));will-change:transform}
+.slide.is-moving img{animation:drift var(--drift,9s) linear forwards}
+.hero.is-paused .slide img{animation-play-state:paused}
+@keyframes drift{from{transform:translate3d(var(--x0),var(--y0),0) scale(var(--s0))}to{transform:translate3d(var(--x1),var(--y1),0) scale(var(--s1))}}
+.hero-shade{z-index:3;background:
+  linear-gradient(90deg, rgba(10,12,12,.86) 0%, rgba(10,12,12,.6) 36%, rgba(10,12,12,.1) 70%, rgba(10,12,12,0) 100%),
+  linear-gradient(0deg, rgba(10,12,12,.7) 0%, rgba(10,12,12,0) 40%)}
+.hero-copy{position:relative;z-index:4;width:100%;padding-bottom:clamp(36px,6vh,64px)}
 .kicker{font:600 .78rem/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:#e6e9e8;margin-bottom:22px;display:flex;align-items:center;gap:12px}
 .kicker::before{content:"";width:28px;height:2px;background:var(--red)}
 .hero h1{font-size:clamp(2.5rem,5.6vw,4.6rem);font-weight:700;max-width:13ch;text-shadow:0 1px 24px rgba(0,0,0,.25)}
 .hero-sub{max-width:44ch;font-size:clamp(1.02rem,1.4vw,1.15rem);color:#e3e7e6;margin-top:20px}
 .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.hero-controls{position:relative;width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:18px;padding-bottom:26px;border-top:1px solid rgba(255,255,255,.18)}
-.slide-caption{font-size:.88rem;color:#d4d9d7;min-width:0}
-.slide-count{font-variant-numeric:tabular-nums;color:var(--white);font-weight:600;margin-right:10px}
-.ctrls{display:flex;align-items:center;gap:6px;flex:none}
-.dots{display:flex;gap:6px;margin-right:12px}
-.dot{width:36px;height:30px;padding:0;background:none;border:0;cursor:pointer;display:flex;align-items:center}
-.dot span{display:block;width:100%;height:3px;background:rgba(255,255,255,.3);position:relative;overflow:hidden}
-.dot span::after{content:"";position:absolute;inset:0;background:var(--white);transform:scaleX(0);transform-origin:left}
-.dot.is-done span::after{transform:scaleX(1)}
-.dot.is-active span::after{transform:scaleX(1)}
-.hero.is-playing .dot.is-active span::after{transform:scaleX(0);animation:fill var(--dur,7000ms) linear forwards}
-@keyframes fill{to{transform:scaleX(1)}}
-.ctl{width:40px;height:40px;display:grid;place-items:center;background:rgba(15,18,18,.45);border:1px solid rgba(255,255,255,.28);border-radius:50%;color:var(--white);cursor:pointer;padding:0;transition:background-color .2s,border-color .2s}
-.ctl:hover{background:rgba(15,18,18,.8);border-color:rgba(255,255,255,.6)}
-.ctl svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.ctl .i-play{fill:currentColor;stroke:none}
-.ctl .i-play,.hero:not(.is-playing) .ctl .i-pause{display:none}
-.hero:not(.is-playing) .ctl .i-play{display:block}
+.hero-caption{margin-top:clamp(28px,5vh,52px);font-size:.84rem;color:#cfd5d3;display:flex;align-items:center;gap:10px;transition:opacity .6s}
+.hero-caption::before{content:"";width:18px;height:1px;background:#cfd5d3}
+.hero-caption.is-out{opacity:0}
+.hero .hero-copy > *{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero .hero-copy > :nth-child(2){animation-delay:.08s}
+.hero .hero-copy > :nth-child(3){animation-delay:.16s}
+.hero .hero-copy > :nth-child(4){animation-delay:.24s}
+.hero .hero-copy > :nth-child(5){animation-delay:.4s}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+/* Scroll-in: content eases up as it enters the screen */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0ms)}
+.rv.in{opacity:1;transform:none}
 
 /* Sections */
 section{padding-block:clamp(72px,9vw,120px)}
@@ -166,6 +163,10 @@ input:focus,textarea:focus{outline:2px solid var(--red);outline-offset:0;border-
 .foot a{text-decoration:none;color:var(--white)}
 
 /* Enlarged photo viewer */
+.ctl{width:40px;height:40px;display:grid;place-items:center;background:rgba(15,18,18,.45);border:1px solid rgba(255,255,255,.28);border-radius:50%;color:var(--white);cursor:pointer;padding:0;transition:background-color .2s,border-color .2s}
+.ctl:hover{background:rgba(15,18,18,.8);border-color:rgba(255,255,255,.6)}
+.ctl svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
 .viewer{border:0;padding:0;margin:auto;background:var(--black);color:var(--white);width:min(1100px,94vw);max-height:94vh;display:none;flex-direction:column}
 .viewer[open]{display:flex}
 .viewer::backdrop{background:rgba(6,8,8,.9)}
@@ -194,22 +195,16 @@ input:focus,textarea:focus{outline:2px solid var(--red);outline-offset:0;border-
   .nav .nav-cta{margin:18px 0 0;border:0;min-height:52px}
 }
 @media (max-width:699px){
-  .hero{height:calc(100svh - var(--header));min-height:600px;max-height:820px}
-  .hero-shade{background:linear-gradient(0deg, rgba(10,12,12,.94) 0%, rgba(10,12,12,.78) 36%, rgba(10,12,12,.05) 64%)}
-  .hero-copy{padding-bottom:20px}
+  .hero{height:calc(100svh - var(--header));min-height:600px;max-height:860px}
+  .hero-shade{background:linear-gradient(0deg, rgba(10,12,12,.94) 0%, rgba(10,12,12,.76) 34%, rgba(10,12,12,.05) 62%)}
+  .hero-copy{padding-bottom:22px}
   .kicker{font-size:.68rem;letter-spacing:.12em;margin-bottom:14px}
   .k-loc{display:none}
   .hero h1{font-size:clamp(2rem,8.6vw,2.5rem)}
   .hero-sub{font-size:.98rem;margin-top:12px}
   .actions{margin-top:20px;gap:10px}
   .actions .btn{flex:1 1 0;min-height:48px;padding:0 12px}
-  .hero-controls{padding-top:12px;padding-bottom:14px;gap:12px}
-  .slide-caption{font-size:.8rem}
-  .slide-text{display:none}
-  .ctrls{flex:1;justify-content:flex-end}
-  .dots{flex:1;margin-right:6px}
-  .dot{flex:1;width:auto}
-  .ctl{width:38px;height:38px}
+  .hero-caption{margin-top:18px;font-size:.78rem}
   .svc-grid,.steps,.row{grid-template-columns:1fr}
   .svc:nth-child(odd){margin-right:0}
   .proj-grid{grid-template-columns:1fr;gap:36px}
@@ -219,8 +214,9 @@ input:focus,textarea:focus{outline:2px solid var(--red);outline-offset:0;border-
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .slide{transition:none}
-  .slide.is-active img{animation:none}
+  .hero.is-ready .slide.is-active{transition:none}
+  .slide.is-moving img{animation:none}
+  .hero .hero-copy > *{animation:none}
   .proj-img img{transition:none}
-  .hero.is-playing .dot.is-active span::after{animation:none;transform:scaleX(1)}
+  .rv{opacity:1;transform:none;transition:none}
 }

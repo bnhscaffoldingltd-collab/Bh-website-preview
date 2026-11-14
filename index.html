@@ -36,54 +36,35 @@
 
 <main id="main">
   <!-- Opening slideshow -->
-  <section class="hero" id="top" aria-roledescription="carousel" aria-label="Featured projects">
+  <section class="hero" id="top" aria-label="Recent projects">
     <div class="slides">
-      <figure class="slide is-active" aria-roledescription="slide" aria-label="1 of 3">
+      <div class="slide is-active" data-from="0.5,0.3,1" data-to="0.5,0.55,1.07" data-caption="Lattice-beam bridge over an industrial roof">
         <picture>
           <source media="(max-width: 699px)" srcset="img/hero-bridge-m.webp">
-          <img src="img/hero-bridge.webp" srcset="img/hero-bridge-1200.webp 1200w, img/hero-bridge.webp 1920w" sizes="100vw" alt="Lattice-beam scaffold bridge spanning a corrugated industrial roof" fetchpriority="high" decoding="async" style="object-position:50% 40%">
+          <img src="img/hero-bridge.webp" srcset="img/hero-bridge-1200.webp 1200w, img/hero-bridge.webp 1920w" sizes="100vw" alt="Lattice-beam scaffold bridge spanning a corrugated industrial roof" fetchpriority="high" decoding="async" style="object-position:50% 30%">
         </picture>
-        <figcaption>Lattice-beam bridge over an industrial roof</figcaption>
-      </figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="2 of 3" aria-hidden="true">
-        <picture>
-          <source media="(max-width: 699px)" data-srcset="img/hero-roof-m.webp">
-          <img data-src="img/hero-roof.webp" data-srcset="img/hero-roof-1200.webp 1200w, img/hero-roof.webp 1920w" sizes="100vw" alt="House fully sheeted in white scaffold sheeting with a temporary roof" decoding="async" style="object-position:50% 45%">
-        </picture>
-        <figcaption>Sheeted scaffold with a temporary roof</figcaption>
-      </figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="3 of 3" aria-hidden="true">
-        <picture>
-          <source media="(max-width: 699px)" data-srcset="img/hero-block-m.webp">
-          <img data-src="img/hero-block.webp" data-srcset="img/hero-block-1200.webp 1200w, img/hero-block.webp 1920w" sizes="100vw" alt="Scaffold wrapping a two-storey residential block" decoding="async" style="object-position:60% 50%">
-        </picture>
-        <figcaption>Scaffold around a residential block</figcaption>
-      </figure>
+      </div>
+      <div class="slide" data-from="0.5,0.35,1" data-to="0.5,0.82,1.05" data-caption="Scaffold on beams over a building entrance" aria-hidden="true">
+        <img data-src="img/hero-block.webp" data-srcset="img/hero-block-1200.webp 1200w, img/hero-block.webp 1920w" sizes="100vw" alt="Scaffold carried on beams over the entrance of a modern block of flats" decoding="async">
+      </div>
+      <div class="slide" data-from="0.4,0.8,1" data-to="0.4,0.25,1.05" data-caption="Full-height scaffold on a townhouse" aria-hidden="true">
+        <img data-src="img/hero-townhouse.webp" data-srcset="img/hero-townhouse-1200.webp 1200w, img/hero-townhouse.webp 1920w" sizes="100vw" alt="Scaffold to roof level on a tall stucco-fronted terrace" decoding="async">
+      </div>
+      <div class="slide" data-from="0.5,0.2,1" data-to="0.5,0.66,1.05" data-caption="Four-storey scaffold carried on a beam" aria-hidden="true">
+        <img data-src="img/hero-beam.webp" data-srcset="img/hero-beam-1200.webp 1200w, img/hero-beam.webp 1920w" sizes="100vw" alt="Four-storey scaffold supported on a lattice beam" decoding="async">
+      </div>
     </div>
     <div class="hero-shade" aria-hidden="true"></div>
 
     <div class="wrap hero-copy">
-      <p class="kicker">Scaffolding contractors<span class="k-loc">&nbsp;· Tilbury, Essex</span></p>
+      <p class="kicker"><span>Scaffolding contractors<span class="k-loc"> · Tilbury, Essex</span></span></p>
       <h1>Scaffolding and access, planned around your job.</h1>
       <p class="hero-sub">Domestic, commercial and specialist scaffolding across Essex, London, Hertfordshire and Kent.</p>
       <div class="actions">
         <a class="btn btn-red" href="#quote">Request a quote</a>
         <a class="btn btn-line" href="#projects">View our work</a>
       </div>
-    </div>
-
-    <div class="wrap hero-controls">
-      <p class="slide-caption" aria-live="polite"><span class="slide-count">01 / 03</span> <span class="slide-text">Lattice-beam bridge over an industrial roof</span></p>
-      <div class="ctrls">
-        <div class="dots" role="group" aria-label="Choose slide">
-          <button type="button" class="dot is-active" aria-label="Slide 1" aria-current="true"><span></span></button>
-          <button type="button" class="dot" aria-label="Slide 2"><span></span></button>
-          <button type="button" class="dot" aria-label="Slide 3"><span></span></button>
-        </div>
-        <button type="button" class="ctl prev" aria-label="Previous slide"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6"/></svg></button>
-        <button type="button" class="ctl pause" aria-label="Pause slideshow"><svg class="i-pause" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4v12M13 4v12"/></svg><svg class="i-play" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4.5v11l9-5.5z"/></svg></button>
-        <button type="button" class="ctl next" aria-label="Next slide"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4 6 6-6 6"/></svg></button>
-      </div>
+      <p class="hero-caption" aria-hidden="true">Lattice-beam bridge over an industrial roof</p>
     </div>
   </section>
 
@@ -138,28 +119,28 @@
         <h2>Recent work</h2>
       </div>
       <div class="proj-grid">
-        <button type="button" class="proj proj-lg" data-photos="img/proj-townhouse-1.webp|img/proj-townhouse-2.webp" data-title="Full-height townhouse scaffold">
-          <span class="proj-img"><img src="img/proj-townhouse-1-card.webp" alt="Scaffold to roof level on a tall stucco-fronted terrace" loading="lazy" width="720" height="960"></span>
+        <button type="button" class="proj" data-photos="img/proj-bridge-1.webp|img/proj-bridge-2.webp|img/proj-bridge-3.webp|img/proj-bridge-4.webp" data-title="Industrial roof bridge">
+          <span class="proj-img"><img src="img/proj-bridge-1-card.webp" alt="Lattice-beam scaffold bridge running along an industrial roof" loading="lazy" width="760" height="1000"></span>
+          <span class="proj-meta">
+            <span class="proj-type">Industrial · Beamed access</span>
+            <span class="proj-title">Industrial roof bridge</span>
+            <span class="proj-desc">Lattice-beam bridges spanning a factory roof, with edge protection.</span>
+          </span>
+        </button>
+        <button type="button" class="proj" data-photos="img/proj-terrace-1.webp" data-title="London terrace frontage">
+          <span class="proj-img"><img src="img/proj-terrace-1-card.webp" alt="Multi-lift scaffold across the front of a London terrace with a tower above the roofline" loading="lazy" width="760" height="1000"></span>
           <span class="proj-meta">
             <span class="proj-type">Residential · Terrace frontage</span>
-            <span class="proj-title">Full-height townhouse scaffold</span>
-            <span class="proj-desc">Independent scaffold to roof level on a tall stucco-fronted terrace.</span>
+            <span class="proj-title">London terrace frontage</span>
+            <span class="proj-desc">Front scaffold bridged over the basement area, with access above the roofline.</span>
           </span>
         </button>
-        <button type="button" class="proj" data-photos="img/proj-entrance-1.webp" data-title="Scaffold bridged over an entrance">
-          <span class="proj-img"><img src="img/proj-entrance-1-card.webp" alt="Scaffold carried on beams over the entrance of a modern block" loading="lazy" width="720" height="960"></span>
+        <button type="button" class="proj" data-photos="img/proj-roof-1.webp|img/proj-roof-2.webp" data-title="Sheeted scaffold and temporary roof">
+          <span class="proj-img"><img src="img/proj-roof-1-card.webp" alt="House enclosed in white sheeting with a temporary roof and rubbish chute" loading="lazy" width="760" height="1000"></span>
           <span class="proj-meta">
-            <span class="proj-type">Residential block · Beamed access</span>
-            <span class="proj-title">Scaffold bridged over an entrance</span>
-            <span class="proj-desc">Beams carry the scaffold over the ground floor, keeping the entrance open.</span>
-          </span>
-        </button>
-        <button type="button" class="proj" data-photos="img/proj-flats-1.webp|img/proj-flats-2.webp" data-title="Low-rise block of flats">
-          <span class="proj-img"><img src="img/proj-flats-1-card.webp" alt="Scaffold around a two-storey yellow-brick block of flats" loading="lazy" width="720" height="960"></span>
-          <span class="proj-meta">
-            <span class="proj-type">Residential block</span>
-            <span class="proj-title">Low-rise block of flats</span>
-            <span class="proj-desc">Scaffold around a two-storey block, with protected standards at ground level.</span>
+            <span class="proj-type">Roofing · Temporary roof</span>
+            <span class="proj-title">Sheeted scaffold and temporary roof</span>
+            <span class="proj-desc">Full enclosure with a temporary roof, keeping the house dry during roof works.</span>
           </span>
         </button>
       </div>
