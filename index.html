@@ -2,163 +2,244 @@
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>B&amp;H Scaffolding Ltd | Scaffolding &amp; Access Contractor</title>
-<meta name="description" content="Domestic, commercial and specialist scaffolding from our Tilbury base, across Essex, London, Hertfordshire and Kent. £10m public and employers' liability cover.">
-<meta name="theme-color" content="#111515">
-<meta property="og:title" content="B&H Scaffolding Ltd">
-<meta property="og:description" content="Domestic, commercial and specialist scaffolding across Essex, London, Hertfordshire and Kent.">
-<meta property="og:image" content="images/featured/full-frontage.webp">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>B&amp;H Scaffolding Ltd | Scaffolding Contractor, Tilbury, Essex</title>
+<meta name="description" content="Domestic, commercial and specialist scaffolding from Tilbury, Essex. Covering Essex, London, Hertfordshire and Kent. CISRS-carded scaffolders.">
+<meta name="theme-color" content="#0f1212">
+<meta property="og:title" content="B&amp;H Scaffolding Ltd">
+<meta property="og:description" content="Scaffolding and access across Essex, London, Hertfordshire and Kent.">
+<meta property="og:image" content="img/hero-bridge.webp">
 <link rel="icon" href="favicon.png">
+<link rel="preload" as="image" href="img/hero-bridge.webp" media="(min-width: 700px)" fetchpriority="high">
+<link rel="preload" as="image" href="img/hero-bridge-m.webp" media="(max-width: 699px)" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header class="top">
-  <nav class="wrap nav" aria-label="Main">
-    <a class="brand" href="index.html"><img src="images/logo.webp" alt="B&amp;H Scaffolding Ltd"></a>
-    <ul id="menu">
-      <li><a href="#services">Services</a></li>
-      <li><a href="work.html">Our work</a></li>
-      <li><a href="#how">How we work</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a class="btn" href="#contact">Discuss a project <svg class="arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></a>
-    <button class="menu-btn" aria-controls="menu" aria-expanded="false">Menu</button>
-  </nav>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="B&amp;H Scaffolding Ltd, home"><img src="img/logo.webp" alt="B&amp;H Scaffolding Ltd" width="771" height="704"></a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#process">How we work</a>
+      <a href="#contact">Contact</a>
+      <a class="btn btn-red nav-cta" href="#quote">Request a quote</a>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav"><span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Menu</span></button>
+  </div>
 </header>
 
-<main>
-  <section class="hero">
-    <div class="wrap">
-      <p class="eyebrow">Scaffolding &amp; access / South East</p>
-      <h1>Scaffolding for the work <em>ahead.</em></h1>
-      <p class="lede">Domestic, commercial and specialist scaffolding. Planned around your project. Delivered by B&amp;H.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-red" href="#contact">Discuss your project <svg class="arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></a>
-        <a class="btn btn-ghost" href="work.html">Explore our work <svg class="arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></a>
-      </div>
-      <div class="hero-foot"><span>Essex · London · Hertfordshire · Kent</span><span>Featured work → Full-height building access</span></div>
+<main id="main">
+  <!-- Opening slideshow -->
+  <section class="hero" id="top" aria-roledescription="carousel" aria-label="Featured projects">
+    <div class="slides">
+      <figure class="slide is-active" aria-roledescription="slide" aria-label="1 of 3">
+        <picture>
+          <source media="(max-width: 699px)" srcset="img/hero-bridge-m.webp">
+          <img src="img/hero-bridge.webp" alt="Lattice-beam scaffold bridge spanning a corrugated industrial roof" fetchpriority="high" decoding="async" style="object-position:50% 40%">
+        </picture>
+        <figcaption>Lattice-beam bridge over an industrial roof</figcaption>
+      </figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="2 of 3" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 699px)" data-srcset="img/hero-roof-m.webp">
+          <img data-src="img/hero-roof.webp" data-srcset="img/hero-roof-1200.webp 1200w, img/hero-roof.webp 1920w" sizes="100vw" alt="House fully sheeted in white scaffold sheeting with a temporary roof" decoding="async" style="object-position:50% 45%">
+        </picture>
+        <figcaption>Sheeted scaffold with a temporary roof</figcaption>
+      </figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="3 of 3" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 699px)" data-srcset="img/hero-block-m.webp">
+          <img data-src="img/hero-block.webp" data-srcset="img/hero-block-1200.webp 1200w, img/hero-block.webp 1920w" sizes="100vw" alt="Scaffold wrapping a two-storey residential block" decoding="async" style="object-position:60% 50%">
+        </picture>
+        <figcaption>Scaffold around a residential block</figcaption>
+      </figure>
     </div>
-  </section>
+    <div class="hero-shade" aria-hidden="true"></div>
 
-  <section>
-    <div class="wrap">
-      <div class="stats">
-        <div class="stat"><b>£10m</b><span>Public liability cover</span></div>
-        <div class="stat"><b>£10m</b><span>Employers’ liability cover</span></div>
-        <div class="stat"><b>Tilbury</b><span>Based in Essex</span></div>
+    <div class="wrap hero-copy">
+      <p class="kicker">Scaffolding contractors<span class="k-loc">&nbsp;· Tilbury, Essex</span></p>
+      <h1>Scaffolding and access, planned around your job.</h1>
+      <p class="hero-sub">Domestic, commercial and specialist scaffolding across Essex, London, Hertfordshire and Kent.</p>
+      <div class="actions">
+        <a class="btn btn-red" href="#quote">Request a quote</a>
+        <a class="btn btn-line" href="#projects">View our work</a>
       </div>
-      <div class="split" style="margin-top:80px">
-        <div>
-          <p class="eyebrow red">B&amp;H Scaffolding Ltd</p>
-          <h2>The right access. <span>From the ground up.</span></h2>
+    </div>
+
+    <div class="wrap hero-controls">
+      <p class="slide-caption" aria-live="polite"><span class="slide-count">01 / 03</span> <span class="slide-text">Lattice-beam bridge over an industrial roof</span></p>
+      <div class="ctrls">
+        <div class="dots" role="group" aria-label="Choose slide">
+          <button type="button" class="dot is-active" aria-label="Slide 1" aria-current="true"><span></span></button>
+          <button type="button" class="dot" aria-label="Slide 2"><span></span></button>
+          <button type="button" class="dot" aria-label="Slide 3"><span></span></button>
         </div>
-        <div>
-          <p>Scaffolding is part of a bigger job. We plan around your building, your trades and your programme, from the first enquiry through to dismantling.</p>
-          <p>Working with homeowners, trade contractors, managing agents and main contractors across Essex, London, Hertfordshire and Kent.</p>
-        </div>
+        <button type="button" class="ctl prev" aria-label="Previous slide"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6"/></svg></button>
+        <button type="button" class="ctl pause" aria-label="Pause slideshow"><svg class="i-pause" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4v12M13 4v12"/></svg><svg class="i-play" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4.5v11l9-5.5z"/></svg></button>
+        <button type="button" class="ctl next" aria-label="Next slide"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4 6 6-6 6"/></svg></button>
       </div>
     </div>
   </section>
 
-  <section id="services" class="soft">
-    <div class="wrap">
-      <p class="eyebrow red">Our capabilities</p>
-      <h2>Access for every <span>part of the project.</span></h2>
-      <p class="muted" style="max-width:620px;margin:22px 0 0">Domestic properties, commercial premises, industrial sites and heritage buildings. One point of contact for your scaffolding requirements.</p>
-      <div class="caps">
-        <div class="cap"><span class="num">01</span><h3>Residential &amp; commercial</h3><p>From individual properties to full building elevations and residential blocks.</p><small>Window access · External repairs · Refurbishment</small><a href="work.html#residential">See residential work →</a></div>
-        <div class="cap"><span class="num">02</span><h3>Roofing &amp; temporary roofs</h3><p>Scaffolding and weather protection planned around the roofing works.</p><small>Temporary roofs · Chimney access · Edge protection</small><a href="work.html#roofing">See roofing work →</a></div>
-        <div class="cap"><span class="num">03</span><h3>Specialist access</h3><p>Access for restricted locations, obstacles and more complex structures.</p><small>Beamed scaffolds · Bridges · Internal access</small><a href="work.html#commercial">See specialist work →</a></div>
-      </div>
-      <div class="acc">
-        <details><summary>General scaffolding</summary><p>Domestic and commercial access, from a single elevation to a full building. Towers, independent scaffolds and access for external trades.</p></details>
-        <details><summary>Birdcages &amp; internal access</summary><p>Internal working platforms, birdcage scaffolds and crash decks, planned around the work below and above.</p></details>
-        <details><summary>Loading &amp; site access</summary><p>Loading bays, stair towers, gantries and protection fans to suit the site and programme.</p></details>
-        <details><summary>Heritage &amp; designed scaffolds</summary><p>Access for churches and listed buildings. Independent scaffold design coordinated where required.</p></details>
-      </div>
-    </div>
-  </section>
-
-  <section id="work">
-    <div class="wrap">
-      <div class="work-head">
-        <div><p class="eyebrow red">Selected projects</p><h2>Our work. <span>Your kind of project.</span></h2></div>
-        <p>From individual homes to residential blocks and specialist structures. A selection of B&amp;H scaffolding.</p>
-      </div>
-      <div class="jobs" id="jobs" data-mode="featured"></div>
-      <div class="more"><a class="btn btn-outline" href="work.html">View all our work <svg class="arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></a></div>
-    </div>
-  </section>
-
-  <section id="how" class="dark">
-    <div class="wrap">
-      <p class="eyebrow" style="color:var(--red-soft)">How we work</p>
-      <h2>A clear plan. <span>At every stage.</span></h2>
-      <div class="steps">
-        <div class="step"><span class="num">01</span><h3>Understand the job</h3><p>Site requirements, access and programme agreed before work starts. TG20 compliance or independent scaffold design to suit the structure.</p></div>
-        <div class="step"><span class="num">02</span><h3>Plan the delivery</h3><p>Site-specific RAMS, with erection and dismantling planned around SG4 guidance.</p></div>
-        <div class="step"><span class="num">03</span><h3>Support the programme</h3><p>Formal handover, inspection support, alterations and dismantling coordinated with your programme.</p></div>
-      </div>
-      <p style="margin:48px 0 0"><a class="btn btn-ghost" href="mailto:ops@bhscaffolding.co.uk?subject=Company%20%26%20insurance%20details%20request">Request our company &amp; insurance details <svg class="arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></a></p>
-    </div>
-  </section>
-
-  <section id="areas">
-    <div class="wrap">
-      <p class="eyebrow red">Where we work</p>
-      <h2>Based in Tilbury. <span>Working across the South East.</span></h2>
-      <div class="areas">
-        <div class="area"><span class="num">01</span><b>Essex</b></div>
-        <div class="area"><span class="num">02</span><b>London</b></div>
-        <div class="area"><span class="num">03</span><b>Hertfordshire</b></div>
-        <div class="area"><span class="num">04</span><b>Kent</b></div>
-      </div>
-      <p class="muted" style="margin:28px 0 0">Send us the site address and scope to discuss your access requirements.</p>
-    </div>
-  </section>
-
-  <section id="contact" class="dark">
-    <div class="wrap contact">
+  <!-- Introduction -->
+  <section class="intro">
+    <div class="wrap intro-grid">
+      <h2>A Tilbury scaffolding contractor working across the South East.</h2>
       <div>
-        <p class="eyebrow" style="color:var(--red-soft)">Project enquiries</p>
-        <h2>Your next project. <span>Let’s talk access.</span></h2>
-        <p class="muted" style="margin:24px 0 0;max-width:440px">Send the address, scope and required dates. Photographs or drawings help us understand the job.</p>
+        <p>B&amp;H Scaffolding Ltd provides scaffolding and access for homeowners, builders, trade contractors and commercial clients across Essex, London, Hertfordshire and Kent.</p>
+        <ul class="facts">
+          <li>Scaffolders holding CISRS cards</li>
+          <li>Domestic, commercial and specialist access</li>
+          <li>Speak directly to Harry or Bill</li>
+        </ul>
       </div>
-      <ul class="contact-list">
-        <li><a href="mailto:ops@bhscaffolding.co.uk?subject=Scaffolding%20enquiry"><span><small>Email project details</small><b>ops@bhscaffolding.co.uk</b></span><svg class="arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></a></li>
-        <li><a href="https://wa.me/447453351635"><span><small>WhatsApp Harry</small><b>07453 351635</b></span><svg class="arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></a></li>
-        <li><a href="tel:+447436871552"><span><small>Call Bill</small><b>07436 871552</b></span><svg class="arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></a></li>
-      </ul>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="services" id="services">
+    <div class="wrap">
+      <div class="head">
+        <p class="label">Services</p>
+        <h2>What we do</h2>
+      </div>
+      <div class="svc-grid">
+        <article class="svc">
+          <h3>Domestic scaffolding</h3>
+          <p>Houses, extensions, loft conversions, roofs and chimneys.</p>
+        </article>
+        <article class="svc">
+          <h3>Commercial &amp; block access</h3>
+          <p>Full elevations and blocks of flats, with loading bays and ladder access.</p>
+        </article>
+        <article class="svc">
+          <h3>Roofing access &amp; temporary roofs</h3>
+          <p>Roof access, edge protection and sheeted temporary roofs.</p>
+        </article>
+        <article class="svc">
+          <h3>Specialist &amp; beamed access</h3>
+          <p>Beams and bridges over entrances, roofs and other obstructions.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="projects" id="projects">
+    <div class="wrap">
+      <div class="head">
+        <p class="label">Selected projects</p>
+        <h2>Recent work</h2>
+      </div>
+      <div class="proj-grid">
+        <button type="button" class="proj proj-lg" data-photos="img/proj-townhouse-1.webp|img/proj-townhouse-2.webp" data-title="Full-height townhouse scaffold">
+          <span class="proj-img"><img src="img/proj-townhouse-1-card.webp" alt="Scaffold to roof level on a tall stucco-fronted terrace" loading="lazy" width="720" height="960"></span>
+          <span class="proj-meta">
+            <span class="proj-type">Residential · Terrace frontage</span>
+            <span class="proj-title">Full-height townhouse scaffold</span>
+            <span class="proj-desc">Independent scaffold to roof level on a tall stucco-fronted terrace.</span>
+          </span>
+        </button>
+        <button type="button" class="proj" data-photos="img/proj-entrance-1.webp" data-title="Scaffold bridged over an entrance">
+          <span class="proj-img"><img src="img/proj-entrance-1-card.webp" alt="Scaffold carried on beams over the entrance of a modern block" loading="lazy" width="720" height="960"></span>
+          <span class="proj-meta">
+            <span class="proj-type">Residential block · Beamed access</span>
+            <span class="proj-title">Scaffold bridged over an entrance</span>
+            <span class="proj-desc">Beams carry the scaffold over the ground floor, keeping the entrance open.</span>
+          </span>
+        </button>
+        <button type="button" class="proj" data-photos="img/proj-flats-1.webp|img/proj-flats-2.webp" data-title="Low-rise block of flats">
+          <span class="proj-img"><img src="img/proj-flats-1-card.webp" alt="Scaffold around a two-storey yellow-brick block of flats" loading="lazy" width="720" height="960"></span>
+          <span class="proj-meta">
+            <span class="proj-type">Residential block</span>
+            <span class="proj-title">Low-rise block of flats</span>
+            <span class="proj-desc">Scaffold around a two-storey block, with protected standards at ground level.</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="process" id="process">
+    <div class="wrap">
+      <div class="head">
+        <p class="label">How we work</p>
+        <h2>Three steps from enquiry to dismantle</h2>
+      </div>
+      <ol class="steps">
+        <li><h3>Send the details</h3><p>Site address, what needs scaffolding, photos or drawings, and your dates.</p></li>
+        <li><h3>Agree scope and price</h3><p>We confirm what is needed, visit if required, and send a clear quotation.</p></li>
+        <li><h3>Erect, adapt, dismantle</h3><p>Installation, alterations and dismantling coordinated with your programme.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Enquiry -->
+  <section class="enquiry" id="contact">
+    <div class="wrap enq-grid">
+      <div class="enq-info">
+        <p class="label label-light">Enquiries</p>
+        <h2 id="quote">Request a quote</h2>
+        <p class="enq-lede">Send the site address, the scope, any photos or drawings, and when you need the scaffold.</p>
+        <ul class="contacts">
+          <li><span class="c-label">Email</span><a href="mailto:ops@bhscaffolding.co.uk?subject=Scaffolding%20enquiry">ops@bhscaffolding.co.uk</a></li>
+          <li><span class="c-label">WhatsApp Harry</span><a href="https://wa.me/447453351635">07453 351635</a></li>
+          <li><span class="c-label">Call Bill</span><a href="tel:+447436871552">07436 871552</a></li>
+        </ul>
+      </div>
+
+      <form class="quote-form" id="quote-form" action="/api/enquiry" method="post" enctype="multipart/form-data" novalidate data-live="false">
+        <div class="row">
+          <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="f-company">Company <span class="opt">optional</span></label><input id="f-company" name="company" autocomplete="organization"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required></div>
+          <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div class="field"><label for="f-site">Site address or postcode</label><input id="f-site" name="site" required></div>
+        <div class="row">
+          <div class="field"><label for="f-start">Required from</label><input id="f-start" name="start" type="date"></div>
+          <div class="field"><label for="f-duration">Expected duration <span class="opt">optional</span></label><input id="f-duration" name="duration" placeholder="e.g. 6 weeks"></div>
+        </div>
+        <div class="field"><label for="f-scope">Scope of work</label><textarea id="f-scope" name="scope" rows="4" required placeholder="What needs access, roughly how high, and any access restrictions."></textarea></div>
+        <div class="field"><label for="f-files">Photos or drawings <span class="opt">optional, up to 5 files, 10 MB total</span></label><input id="f-files" name="files" type="file" accept="image/*,application/pdf" multiple></div>
+        <div class="hp" aria-hidden="true"><label for="f-web">Leave empty</label><input id="f-web" name="website" tabindex="-1" autocomplete="off"></div>
+        <button class="btn btn-red btn-block" type="submit">Send enquiry</button>
+        <div class="form-msg" id="form-msg" role="status" tabindex="-1" hidden></div>
+      </form>
     </div>
   </section>
 </main>
 
-<footer>
+<footer class="site-footer">
   <div class="wrap foot">
-    <img src="images/logo.webp" alt="B&amp;H Scaffolding Ltd">
-    <span>© <span data-year>2026</span> B&amp;H Scaffolding Ltd · Company no. 16278566 · Registered in England &amp; Wales<br>Registered office: 70 Bounces Road, London, N9 8JS</span>
-    <a href="#">Back to top ↑</a>
+    <img src="img/logo.webp" alt="B&amp;H Scaffolding Ltd" width="771" height="704" loading="lazy">
+    <p>B&amp;H Scaffolding Ltd · Company no. 16278566 · Registered in England &amp; Wales<br>Registered office: 70 Bounces Road, London, N9 8JS</p>
+    <p><a href="mailto:ops@bhscaffolding.co.uk">ops@bhscaffolding.co.uk</a></p>
   </div>
 </footer>
 
-<dialog class="lb" id="lb" aria-label="Project photos">
-  <div class="lb-inner">
-    <div class="lb-stage" id="lbStage">
-      <img src="" alt="">
-      <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
-      <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous photo">‹</button>
-      <button class="lb-btn lb-next" id="lbNext" aria-label="Next photo">›</button>
-    </div>
-    <div class="lb-side">
-      <div><span class="tag" id="lbTag"></span>
-      <h3 id="lbTitle"></h3></div>
-      <div class="lb-cta"><a class="btn btn-red" href="#contact">Discuss a project <svg class="arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></a></div>
+<dialog class="viewer" id="viewer" aria-label="Project photos">
+  <div class="v-stage"><img alt=""></div>
+  <div class="v-bar">
+    <p class="v-title"></p>
+    <div class="v-ctrls">
+      <span class="v-count"></span>
+      <button type="button" class="ctl v-prev" aria-label="Previous photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6"/></svg></button>
+      <button type="button" class="ctl v-next" aria-label="Next photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4 6 6-6 6"/></svg></button>
+      <button type="button" class="ctl v-close" aria-label="Close"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
     </div>
   </div>
 </dialog>
 
-<script src="photos.js"></script>
-<script src="site.js"></script>
+<script src="site.js" defer></script>
 </body>
 </html>
