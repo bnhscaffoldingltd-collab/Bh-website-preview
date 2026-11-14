@@ -19,7 +19,9 @@ def save(im, path, width, q=78):
 SHEET_BLUR = [(180, 1155, 305, 1415), (355, 1085, 415, 1145)]
 # --- Hero slides: (desktop 16:9 crop) and (phone portrait crop) ---
 b9 = load("a84fb8cc");  d = b9.crop((0, 40, 1200, 715))
-save(d, "hero-bridge.webp", 1920); save(d, "hero-bridge-1200.webp", 1200)
+# Source is only 1200px wide: enlarge with Lanczos plus a light unsharp mask (no detail invented)
+big = d.resize((1920, 1080), Image.LANCZOS).filter(ImageFilter.UnsharpMask(radius=1.6, percent=70, threshold=2))
+save(big, "hero-bridge.webp", 1920, q=84); save(d, "hero-bridge-1200.webp", 1200)
 b8 = load("d634efe0");  save(b8.crop((150, 0, 1050, 1600)), "hero-bridge-m.webp", 900)
 s2 = load("bf657501", SHEET_BLUR); d = s2.crop((0, 160, 2016, 1294))
 save(d, "hero-roof.webp", 1920); save(d, "hero-roof-1200.webp", 1200)
