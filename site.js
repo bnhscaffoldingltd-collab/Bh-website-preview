@@ -21,11 +21,7 @@
   var grid = document.getElementById("jobs");
   if (!grid) return;
   var home = grid.dataset.mode === "featured";
-  // Mix the order: first photo of every set, then second photos, and so on
-  var seen = {};
-  var mixed = PHOTOS.map(function (p, i) { var k = p.label; seen[k] = (seen[k] || 0) + 1; return { p: p, r: seen[k], i: i }; })
-    .sort(function (x, y) { return x.r - y.r || x.i - y.i; }).map(function (x) { return x.p; });
-  var base = home ? PHOTOS.filter(function (p) { return p.home; }).slice(0, 6) : mixed;
+  var base = home ? PHOTOS.filter(function (p) { return p.home; }).slice(0, 6) : PHOTOS;
   var shown = base;
 
   function render(filter) {
