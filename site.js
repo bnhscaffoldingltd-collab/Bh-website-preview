@@ -18,7 +18,6 @@
   /* ---------- Hero: drifting photographs that dissolve into each other ---------- */
   var hero = document.querySelector(".hero");
   var slides = Array.prototype.slice.call(hero.querySelectorAll(".slide"));
-  var caption = hero.querySelector(".hero-caption");
   var SHOW = 6500, FADE = 2000, current = 0, timer = null;
   hero.style.setProperty("--drift", (SHOW + FADE + 600) + "ms");
 
@@ -52,8 +51,6 @@
     prev.classList.remove("is-active"); prev.classList.add("is-prev"); prev.setAttribute("aria-hidden", "true");
     slide.classList.add("is-active"); slide.removeAttribute("aria-hidden");
     setTimeout(function () { prev.classList.remove("is-prev", "is-moving"); }, FADE + 100);
-    caption.classList.add("is-out");
-    setTimeout(function () { caption.textContent = slide.dataset.caption; caption.classList.remove("is-out"); }, 700);
     current = next;
   }
   function advance() {
@@ -88,7 +85,7 @@
 
   /* ---------- Scroll-in ---------- */
   if (!reduced && "IntersectionObserver" in window) {
-    var groups = [".intro h2", ".intro-grid > div", ".head", ".svc", ".proj", ".steps li", ".enq-info", ".quote-form"];
+    var groups = [".statement", ".work h2", ".job", ".services h2", ".svc-list li", ".how", ".enq-info", ".quote-form"];
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
@@ -112,7 +109,7 @@
     vImg.alt = title + (photos.length > 1 ? ", photo " + (idx + 1) + " of " + photos.length : "");
     vCount.textContent = photos.length > 1 ? (idx + 1) + " / " + photos.length : "";
   }
-  document.querySelectorAll(".proj").forEach(function (card) {
+  document.querySelectorAll(".job").forEach(function (card) {
     card.addEventListener("click", function () {
       photos = card.dataset.photos.split("|"); title = card.dataset.title; opener = card;
       vTitle.textContent = title;

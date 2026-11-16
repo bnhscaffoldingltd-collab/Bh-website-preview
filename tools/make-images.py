@@ -26,9 +26,9 @@ def big(im, w=1920):
 b9 = load("a84fb8cc")                                   # industrial roof bridge (landscape)
 save(big(b9), "hero-bridge.webp", 1920, q=84); save(b9, "hero-bridge-1200.webp", 1200)
 save(load("d634efe0").crop((150, 0, 1050, 1600)), "hero-bridge-m.webp", 900)   # phone: portrait view of the bridge
-t = load("99fdec19").crop((0, 0, 1512, 1580))           # modern block, beam over entrance (crop removes a passer-by)
+t = load("99fdec19", [(590, 1630, 675, 1990), (1410, 1585, 1480, 1625)]).crop((0, 0, 1512, 1920))   # beam over entrance, foams
 save(big(t), "hero-block.webp", 1920, q=76); save(t, "hero-block-1200.webp", 1200)
-h = load("2c78ef08", [(1065, 1325, 1225, 1620), (920, 1355, 970, 1415)]).crop((0, 0, 1512, 1900))
-save(big(h), "hero-townhouse.webp", 1920, q=72); save(h, "hero-townhouse-1200.webp", 1200)
-f = load("7054add4")                                    # four-storey scaffold on a beam
-save(big(f), "hero-beam.webp", 1920, q=72); save(f, "hero-beam-1200.webp", 1200)
+f = load("7ab55845")                                    # yellow-brick flats, foams
+save(big(f), "hero-flats.webp", 1920, q=74); save(f, "hero-flats-1200.webp", 1200)
+h = load("3ad1d9d4")                                    # housing block, long foamed run (landscape)
+save(big(h), "hero-housing.webp", 1920, q=80); save(h, "hero-housing-1200.webp", 1200)
