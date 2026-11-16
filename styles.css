@@ -65,6 +65,8 @@ p{margin:0}
 .hero-copy{position:relative;z-index:4;width:100%;padding-bottom:clamp(56px,10vh,120px)}
 .hero h1{font-size:clamp(2.6rem,6.4vw,5.4rem);font-weight:800;letter-spacing:-.03em}
 .hero-sub{font:600 clamp(1rem,1.5vw,1.3rem) var(--display);margin:14px 0 34px;letter-spacing:.01em}
+.hero-note{position:absolute;z-index:4;top:clamp(18px,3.5vh,34px);right:max(22px, env(safe-area-inset-right, 0px));margin:0;padding:10px 14px 10px 16px;background:rgba(8,9,9,.72);border-left:3px solid var(--red);font:600 clamp(.8rem,1.05vw,.98rem) var(--display);color:var(--white);transition:opacity .6s;max-width:calc(100% - 44px)}
+.hero-note.is-out{opacity:0}
 .scroll-cue{position:absolute;z-index:4;right:max(22px, env(safe-area-inset-right, 0px));bottom:clamp(56px,10vh,120px);width:54px;height:54px;border:2px solid var(--white);border-radius:50%;display:grid;place-items:center;color:var(--white)}
 .scroll-cue svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .scroll-cue:hover{background:var(--white);color:var(--text)}

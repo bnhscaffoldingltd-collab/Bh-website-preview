@@ -18,6 +18,7 @@
   /* ---------- Hero: drifting photographs that dissolve into each other ---------- */
   var hero = document.querySelector(".hero");
   var slides = Array.prototype.slice.call(hero.querySelectorAll(".slide"));
+  var note = hero.querySelector(".hero-note");
   var SHOW = 7500, FADE = 2000, current = 0, timer = null;
   hero.style.setProperty("--drift", (SHOW + FADE + 600) + "ms");
 
@@ -52,6 +53,11 @@
     slide.classList.add("is-active"); slide.removeAttribute("aria-hidden");
     setTimeout(function () { prev.classList.remove("is-prev", "is-moving"); }, FADE + 100);
     current = next;
+    var txt = slide.dataset.note || "";
+    if (note && txt !== note.textContent) {
+      note.classList.add("is-out");
+      setTimeout(function () { note.textContent = txt; if (txt) note.classList.remove("is-out"); }, 700);
+    }
   }
   function advance() {
     var next = (current + 1) % slides.length, img = slides[next].querySelector("img");
