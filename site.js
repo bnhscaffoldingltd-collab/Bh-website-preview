@@ -85,7 +85,7 @@
 
   /* ---------- Scroll-in ---------- */
   if (!reduced && "IntersectionObserver" in window) {
-    var groups = [".work-head", ".proof-list li", ".enq-info", ".quote-form"];
+    var groups = [".work-head", ".tile", ".proof-list li", ".enq-info", ".quote-form"];
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
@@ -98,35 +98,22 @@
     });
   }
 
-  /* ---------- Our work: a strip of photographs that drifts slowly; drag, swipe or scroll to move it ---------- */
-  var strip = document.querySelector(".strip");
-  if (strip) {
-    var track = strip.querySelector(".strip-track"), auto = !reduced, seenStrip = false, held = false, pos = 0, last = 0;
-    if (auto) {                      // duplicate the photos so the drift can loop without a jump
-      Array.prototype.slice.call(track.children).forEach(function (n) { var c = n.cloneNode(true); c.setAttribute("aria-hidden", "true"); c.alt = ""; track.appendChild(c); });
-    }
-    function half() { return track.scrollWidth / 2; }
-    function frame(t) {
-      if (auto && seenStrip && !held && !document.hidden) {
-        var dt = Math.min(t - last, 50); pos = strip.scrollLeft + dt * 0.035;
-        if (pos >= half()) pos -= half();
-        strip.scrollLeft = pos;
-      }
-      last = t; requestAnimationFrame(frame);
-    }
-    if (auto) requestAnimationFrame(frame);
-    var resume;
-    function hold() { held = true; clearTimeout(resume); }
-    function release() { clearTimeout(resume); resume = setTimeout(function () { held = false; }, 2500); }
-    ["pointerdown", "touchstart", "wheel", "focusin", "mouseenter"].forEach(function (e) { strip.addEventListener(e, hold, { passive: true }); });
-    ["pointerup", "touchend", "mouseleave", "focusout"].forEach(function (e) { strip.addEventListener(e, release, { passive: true }); });
-    strip.addEventListener("wheel", release, { passive: true });
-    var down = null;               // mouse drag
-    strip.addEventListener("mousedown", function (e) { down = { x: e.pageX, s: strip.scrollLeft }; strip.classList.add("dragging"); });
-    window.addEventListener("mousemove", function (e) { if (down) strip.scrollLeft = down.s - (e.pageX - down.x); });
-    window.addEventListener("mouseup", function () { down = null; strip.classList.remove("dragging"); });
-    if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { seenStrip = e[0].isIntersecting; }, { threshold: 0.1 }).observe(strip); else seenStrip = true;
+  /* ---------- Our work: three photographs, each fading through several jobs in turn ---------- */
+  var tiles = Array.prototype.slice.call(document.querySelectorAll(".tile"));
+  var tileTimer = null, tileTurn = 0, tilesInView = false;
+  function fadeTile(tile) {
+    var imgs = tile.querySelectorAll("img"), cur = tile.querySelector("img.on");
+    var next = imgs[(Array.prototype.indexOf.call(imgs, cur) + 1) % imgs.length];
+    if (next.dataset.src) { next.src = next.dataset.src; next.removeAttribute("data-src"); }
+    (next.decode ? next.decode() : Promise.resolve()).then(function () { cur.classList.remove("on"); next.classList.add("on"); }, function () {});
   }
+  function tileTick() {
+    clearTimeout(tileTimer);
+    if (reduced || document.hidden || !tilesInView || !tiles.length) return;
+    tileTimer = setTimeout(function () { fadeTile(tiles[tileTurn % tiles.length]); tileTurn++; tileTick(); }, 2400);
+  }
+  if (tiles.length && "IntersectionObserver" in window) new IntersectionObserver(function (e) { tilesInView = e[0].isIntersecting; tileTick(); }, { threshold: 0.15 }).observe(document.querySelector(".tiles"));
+  document.addEventListener("visibilitychange", tileTick);
 
   /* ---------- Quote form ---------- */
   var form = document.getElementById("quote-form"), msg = document.getElementById("form-msg");

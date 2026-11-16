@@ -86,11 +86,10 @@ h2{font-size:clamp(2rem,3.6vw,3.1rem);font-weight:800;margin-bottom:clamp(28px,4
 .work-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px)}
 .work-head h2{margin:0}
 .work-head p{font:500 clamp(1rem,1.5vw,1.25rem) var(--display);color:var(--muted);max-width:32ch}
-.strip{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;cursor:grab;-webkit-overflow-scrolling:touch}
-.strip::-webkit-scrollbar{display:none}
-.strip.dragging{cursor:grabbing}
-.strip-track{display:flex;gap:10px;width:max-content;padding-inline:var(--gut)}
-.strip img{height:clamp(340px,64vh,620px);width:auto;max-width:none;flex:none;user-select:none;background:#e9e9e9}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.4vw,20px)}
+.tile{position:relative;margin:0;aspect-ratio:3/4;overflow:hidden;background:#e9e9e9}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.6s ease-in-out}
+.tile img.on{opacity:1}
 
 /* Proof: insurance and standards over the beam bracing */
 .proof{color:var(--white);background:linear-gradient(rgba(8,9,9,.72),rgba(8,9,9,.8)), url(img/bg-bracing.webp) center 60%/cover no-repeat var(--black)}
@@ -147,10 +146,12 @@ input:focus,textarea:focus{outline:2px solid var(--red);outline-offset:0;backgro
   .hero h1{font-size:clamp(2.1rem,10vw,2.8rem)}
   .hero-copy{padding-bottom:40px}
   .scroll-cue{bottom:40px;width:48px;height:48px}
-  .strip img{height:min(58vh,440px)}
+  .tiles{grid-template-columns:1fr;gap:10px}
+  .tile{aspect-ratio:4/5}
   .row{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
+  .tile img{transition:none}
   html{scroll-behavior:auto}
   .hero.is-ready .slide.is-active{transition:none}
   .slide.is-moving img{animation:none}
