@@ -22,12 +22,13 @@ def big(im, w=1920):
         return im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
     return im.resize((w, round(im.height * w / im.width)), Image.LANCZOS).filter(ImageFilter.UnsharpMask(radius=1.6, percent=70, threshold=2))
 
+SHEET_BLUR = [(180, 1155, 305, 1415), (355, 1085, 415, 1145)]
 # --- Hero photos: one large and one 1200px version each; the page pans across them ---
 b9 = load("a84fb8cc")                                   # industrial roof bridge (landscape)
 save(big(b9), "hero-bridge.webp", 1920, q=84); save(b9, "hero-bridge-1200.webp", 1200)
 save(load("d634efe0").crop((150, 0, 1050, 1600)), "hero-bridge-m.webp", 900)   # phone: portrait view of the bridge
-t = load("99fdec19", [(590, 1630, 675, 1990), (1410, 1585, 1480, 1625)]).crop((0, 0, 1512, 1920))   # beam over entrance, foams
-save(big(t), "hero-block.webp", 1920, q=76); save(t, "hero-block-1200.webp", 1200)
+r = load("bf657501", SHEET_BLUR)                        # sheeted house with temporary roof (landscape)
+save(big(r), "hero-roof.webp", 1920, q=80); save(r, "hero-roof-1200.webp", 1200)
 f = load("7ab55845")                                    # yellow-brick flats, foams
 save(big(f), "hero-flats.webp", 1920, q=74); save(f, "hero-flats-1200.webp", 1200)
 h = load("3ad1d9d4")                                    # housing block, long foamed run (landscape)
