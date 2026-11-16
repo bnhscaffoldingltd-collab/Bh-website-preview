@@ -18,7 +18,7 @@
   /* ---------- Hero: drifting photographs that dissolve into each other ---------- */
   var hero = document.querySelector(".hero");
   var slides = Array.prototype.slice.call(hero.querySelectorAll(".slide"));
-  var SHOW = 6500, FADE = 2000, current = 0, timer = null;
+  var SHOW = 7500, FADE = 2000, current = 0, timer = null;
   hero.style.setProperty("--drift", (SHOW + FADE + 600) + "ms");
 
   function hydrate(slide) {
@@ -85,7 +85,7 @@
 
   /* ---------- Scroll-in ---------- */
   if (!reduced && "IntersectionObserver" in window) {
-    var groups = [".statement", ".work h2", ".tile", ".services h2", ".svc-list li", ".how", ".enq-info", ".quote-form"];
+    var groups = [".facts li", ".work-text", ".stage", ".enq-info", ".quote-form"];
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
@@ -98,25 +98,36 @@
     });
   }
 
-  /* ---------- Work tiles: each fades through several jobs ---------- */
-  var tiles = Array.prototype.slice.call(document.querySelectorAll(".tile"));
-  var tileTimer = null, tileTurn = 0, tilesInView = false;
-  function fadeTile(tile) {
-    var imgs = tile.querySelectorAll("img"), cur = tile.querySelector("img.on");
-    var next = imgs[(Array.prototype.indexOf.call(imgs, cur) + 1) % imgs.length];
-    if (next.dataset.src) { next.src = next.dataset.src; next.removeAttribute("data-src"); }
-    var go = function () { cur.classList.remove("on"); next.classList.add("on"); };
-    (next.decode ? next.decode() : Promise.resolve()).then(go, function () {});
+  /* ---------- Our work: sector list with one large photo that fades between jobs ---------- */
+  var sectors = Array.prototype.slice.call(document.querySelectorAll(".sector"));
+  var stage = document.querySelector(".stage");
+  if (sectors.length && stage) {
+    var seen = {}, sIdx = 0, sTimer = null, sInView = false, hold = false;
+    function showSector(i, user) {
+      var btn = sectors[i], key = btn.dataset.key, n = +btn.dataset.count;
+      seen[key] = (seen[key] || 0) % n + 1;
+      if (i === 0 && !user && seen[key] === 1 && sIdx === 0 && !stage.dataset.started) seen[key] = 2;
+      stage.dataset.started = "1";
+      var cur = stage.querySelector("img.on"), next = stage.querySelector("img:not(.on)");
+      next.hidden = false; next.alt = btn.dataset.alt; next.src = "img/tile-" + key + "-" + seen[key] + ".webp";
+      var swap = function () { cur.classList.remove("on"); next.classList.add("on"); };
+      (next.decode ? next.decode() : Promise.resolve()).then(swap, swap);
+      sectors.forEach(function (s, k) { s.classList.toggle("is-on", k === i); if (k === i) s.setAttribute("aria-current", "true"); else s.removeAttribute("aria-current"); });
+      sIdx = i;
+    }
+    function sTick() {
+      clearTimeout(sTimer);
+      if (reduced || document.hidden || !sInView || hold) return;
+      sTimer = setTimeout(function () { showSector((sIdx + 1) % sectors.length); sTick(); }, 3800);
+    }
+    sectors.forEach(function (s, i) {
+      s.addEventListener("click", function () { showSector(i, true); sTick(); });
+      s.addEventListener("mouseenter", function () { if (i !== sIdx) showSector(i, true); hold = true; clearTimeout(sTimer); });
+      s.addEventListener("mouseleave", function () { hold = false; sTick(); });
+    });
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { sInView = e[0].isIntersecting; sTick(); }, { threshold: 0.25 }).observe(stage);
+    document.addEventListener("visibilitychange", sTick);
   }
-  function tileTick() {
-    clearTimeout(tileTimer);
-    if (reduced || document.hidden || !tilesInView || !tiles.length) return;
-    tileTimer = setTimeout(function () { fadeTile(tiles[tileTurn % tiles.length]); tileTurn++; tileTick(); }, 1700);
-  }
-  if (tiles.length && "IntersectionObserver" in window) {
-    new IntersectionObserver(function (e) { tilesInView = e[0].isIntersecting; tileTick(); }, { threshold: 0.15 }).observe(document.querySelector(".tiles"));
-  }
-  document.addEventListener("visibilitychange", tileTick);
 
   /* ---------- Quote form ---------- */
   var form = document.getElementById("quote-form"), msg = document.getElementById("form-msg");
@@ -150,10 +161,10 @@
     return !first;
   }
   function summary() {
-    var v = function (n) { return (form.elements[n].value || "").trim(); };
+    var v = function (n) { var el = form.elements[n]; return ((el && el.value) || "").trim(); };
     return [
-      "Name: " + v("name"), "Company: " + (v("company") || "-"), "Phone: " + v("phone"), "Email: " + v("email"),
-      "Site: " + v("site"), "Required from: " + (v("start") || "-"), "Duration: " + (v("duration") || "-"),
+      "Name: " + v("name"), "Phone: " + v("phone"), "Email: " + v("email"),
+      "Site: " + v("site"), "Required from: " + (v("start") || "-"),
       "", "Scope:", v("scope")
     ].join("\n");
   }
