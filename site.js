@@ -85,7 +85,7 @@
 
   /* ---------- Scroll-in ---------- */
   if (!reduced && "IntersectionObserver" in window) {
-    var groups = [".statement", ".work h2", ".job", ".services h2", ".svc-list li", ".how", ".enq-info", ".quote-form"];
+    var groups = [".statement", ".work h2", ".tile", ".services h2", ".svc-list li", ".how", ".enq-info", ".quote-form"];
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
@@ -98,44 +98,25 @@
     });
   }
 
-  /* ---------- Enlarged photo viewer ---------- */
-  var viewer = document.getElementById("viewer");
-  var vImg = viewer.querySelector(".v-stage img"), vTitle = viewer.querySelector(".v-title"), vCount = viewer.querySelector(".v-count");
-  var vPrev = viewer.querySelector(".v-prev"), vNext = viewer.querySelector(".v-next");
-  var photos = [], idx = 0, opener = null, title = "";
-  function show(n) {
-    idx = (n + photos.length) % photos.length;
-    vImg.src = photos[idx];
-    vImg.alt = title + (photos.length > 1 ? ", photo " + (idx + 1) + " of " + photos.length : "");
-    vCount.textContent = photos.length > 1 ? (idx + 1) + " / " + photos.length : "";
+  /* ---------- Work tiles: each fades through several jobs ---------- */
+  var tiles = Array.prototype.slice.call(document.querySelectorAll(".tile"));
+  var tileTimer = null, tileTurn = 0, tilesInView = false;
+  function fadeTile(tile) {
+    var imgs = tile.querySelectorAll("img"), cur = tile.querySelector("img.on");
+    var next = imgs[(Array.prototype.indexOf.call(imgs, cur) + 1) % imgs.length];
+    if (next.dataset.src) { next.src = next.dataset.src; next.removeAttribute("data-src"); }
+    var go = function () { cur.classList.remove("on"); next.classList.add("on"); };
+    (next.decode ? next.decode() : Promise.resolve()).then(go, function () {});
   }
-  document.querySelectorAll(".job").forEach(function (card) {
-    card.addEventListener("click", function () {
-      photos = card.dataset.photos.split("|"); title = card.dataset.title; opener = card;
-      vTitle.textContent = title;
-      vPrev.hidden = vNext.hidden = photos.length < 2;
-      show(0);
-      viewer.showModal();
-      viewer.querySelector(".v-close").focus();
-    });
-  });
-  vPrev.addEventListener("click", function () { show(idx - 1); });
-  vNext.addEventListener("click", function () { show(idx + 1); });
-  viewer.querySelector(".v-close").addEventListener("click", function () { viewer.close(); });
-  viewer.addEventListener("click", function (e) { if (e.target === viewer) viewer.close(); });
-  viewer.addEventListener("keydown", function (e) {
-    if (photos.length < 2) return;
-    if (e.key === "ArrowRight") show(idx + 1);
-    if (e.key === "ArrowLeft") show(idx - 1);
-  });
-  viewer.addEventListener("close", function () { if (opener) opener.focus(); });
-  var sx = null;
-  viewer.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; }, { passive: true });
-  viewer.addEventListener("touchend", function (e) {
-    if (sx === null || photos.length < 2) return;
-    var dx = e.changedTouches[0].clientX - sx; sx = null;
-    if (Math.abs(dx) > 40) show(idx + (dx < 0 ? 1 : -1));
-  });
+  function tileTick() {
+    clearTimeout(tileTimer);
+    if (reduced || document.hidden || !tilesInView || !tiles.length) return;
+    tileTimer = setTimeout(function () { fadeTile(tiles[tileTurn % tiles.length]); tileTurn++; tileTick(); }, 1700);
+  }
+  if (tiles.length && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (e) { tilesInView = e[0].isIntersecting; tileTick(); }, { threshold: 0.15 }).observe(document.querySelector(".tiles"));
+  }
+  document.addEventListener("visibilitychange", tileTick);
 
   /* ---------- Quote form ---------- */
   var form = document.getElementById("quote-form"), msg = document.getElementById("form-msg");
