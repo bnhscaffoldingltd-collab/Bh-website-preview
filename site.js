@@ -85,7 +85,7 @@
 
   /* ---------- Scroll-in ---------- */
   if (!reduced && "IntersectionObserver" in window) {
-    var groups = [".facts li", ".work-text", ".stage", ".enq-info", ".quote-form"];
+    var groups = [".work-head", ".proof-list li", ".enq-info", ".quote-form"];
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
@@ -98,35 +98,34 @@
     });
   }
 
-  /* ---------- Our work: sector list with one large photo that fades between jobs ---------- */
-  var sectors = Array.prototype.slice.call(document.querySelectorAll(".sector"));
-  var stage = document.querySelector(".stage");
-  if (sectors.length && stage) {
-    var seen = {}, sIdx = 0, sTimer = null, sInView = false, hold = false;
-    function showSector(i, user) {
-      var btn = sectors[i], key = btn.dataset.key, n = +btn.dataset.count;
-      seen[key] = (seen[key] || 0) % n + 1;
-      if (i === 0 && !user && seen[key] === 1 && sIdx === 0 && !stage.dataset.started) seen[key] = 2;
-      stage.dataset.started = "1";
-      var cur = stage.querySelector("img.on"), next = stage.querySelector("img:not(.on)");
-      next.hidden = false; next.alt = btn.dataset.alt; next.src = "img/tile-" + key + "-" + seen[key] + ".webp";
-      var swap = function () { cur.classList.remove("on"); next.classList.add("on"); };
-      (next.decode ? next.decode() : Promise.resolve()).then(swap, swap);
-      sectors.forEach(function (s, k) { s.classList.toggle("is-on", k === i); if (k === i) s.setAttribute("aria-current", "true"); else s.removeAttribute("aria-current"); });
-      sIdx = i;
+  /* ---------- Our work: a strip of photographs that drifts slowly; drag, swipe or scroll to move it ---------- */
+  var strip = document.querySelector(".strip");
+  if (strip) {
+    var track = strip.querySelector(".strip-track"), auto = !reduced, seenStrip = false, held = false, pos = 0, last = 0;
+    if (auto) {                      // duplicate the photos so the drift can loop without a jump
+      Array.prototype.slice.call(track.children).forEach(function (n) { var c = n.cloneNode(true); c.setAttribute("aria-hidden", "true"); c.alt = ""; track.appendChild(c); });
     }
-    function sTick() {
-      clearTimeout(sTimer);
-      if (reduced || document.hidden || !sInView || hold) return;
-      sTimer = setTimeout(function () { showSector((sIdx + 1) % sectors.length); sTick(); }, 3800);
+    function half() { return track.scrollWidth / 2; }
+    function frame(t) {
+      if (auto && seenStrip && !held && !document.hidden) {
+        var dt = Math.min(t - last, 50); pos = strip.scrollLeft + dt * 0.035;
+        if (pos >= half()) pos -= half();
+        strip.scrollLeft = pos;
+      }
+      last = t; requestAnimationFrame(frame);
     }
-    sectors.forEach(function (s, i) {
-      s.addEventListener("click", function () { showSector(i, true); sTick(); });
-      s.addEventListener("mouseenter", function () { if (i !== sIdx) showSector(i, true); hold = true; clearTimeout(sTimer); });
-      s.addEventListener("mouseleave", function () { hold = false; sTick(); });
-    });
-    if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { sInView = e[0].isIntersecting; sTick(); }, { threshold: 0.25 }).observe(stage);
-    document.addEventListener("visibilitychange", sTick);
+    if (auto) requestAnimationFrame(frame);
+    var resume;
+    function hold() { held = true; clearTimeout(resume); }
+    function release() { clearTimeout(resume); resume = setTimeout(function () { held = false; }, 2500); }
+    ["pointerdown", "touchstart", "wheel", "focusin", "mouseenter"].forEach(function (e) { strip.addEventListener(e, hold, { passive: true }); });
+    ["pointerup", "touchend", "mouseleave", "focusout"].forEach(function (e) { strip.addEventListener(e, release, { passive: true }); });
+    strip.addEventListener("wheel", release, { passive: true });
+    var down = null;               // mouse drag
+    strip.addEventListener("mousedown", function (e) { down = { x: e.pageX, s: strip.scrollLeft }; strip.classList.add("dragging"); });
+    window.addEventListener("mousemove", function (e) { if (down) strip.scrollLeft = down.s - (e.pageX - down.x); });
+    window.addEventListener("mouseup", function () { down = null; strip.classList.remove("dragging"); });
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { seenStrip = e[0].isIntersecting; }, { threshold: 0.1 }).observe(strip); else seenStrip = true;
   }
 
   /* ---------- Quote form ---------- */
