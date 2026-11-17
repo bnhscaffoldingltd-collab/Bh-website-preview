@@ -67,8 +67,6 @@ p{margin:0}
 .hero-copy{position:relative;z-index:4;width:100%;padding-bottom:clamp(56px,10vh,120px)}
 .hero h1{font-size:clamp(2.6rem,6.4vw,5.4rem);font-weight:800;letter-spacing:-.03em}
 .hero-sub{font:600 clamp(1rem,1.5vw,1.3rem) var(--display);margin:14px 0 34px;letter-spacing:.01em}
-.hero-note{position:absolute;z-index:4;top:clamp(18px,3.5vh,34px);right:max(22px, env(safe-area-inset-right, 0px));margin:0;padding:10px 14px 10px 16px;background:rgba(8,9,9,.72);border-left:3px solid var(--red);font:600 clamp(.8rem,1.05vw,.98rem) var(--display);color:var(--white);transition:opacity .6s;max-width:calc(100% - 44px)}
-.hero-note.is-out{opacity:0}
 .scroll-cue{position:absolute;z-index:4;right:max(22px, env(safe-area-inset-right, 0px));bottom:clamp(56px,10vh,120px);width:54px;height:54px;border:2px solid var(--white);border-radius:50%;display:grid;place-items:center;color:var(--white)}
 .scroll-cue svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .scroll-cue:hover{background:var(--white);color:var(--text)}
@@ -101,6 +99,11 @@ h2{font-size:clamp(2rem,3.6vw,3.1rem);font-weight:800;margin-bottom:clamp(28px,4
 .proof-list li{border-top:3px solid var(--red);padding-top:22px}
 .proof-list strong{display:block;font:800 clamp(1.9rem,3.6vw,3.2rem)/1 var(--display);letter-spacing:-.03em}
 .proof-list span{display:block;margin-top:12px;font:600 clamp(.9rem,1.1vw,1.05rem) var(--display);color:#dfe2e2}
+
+/* Until online sending is switched on (data-live="true"), show the direct contacts only */
+.quote-form[data-live="false"]{display:none}
+.enq-grid:has(.quote-form[data-live="false"]){grid-template-columns:1fr}
+.enq-grid:has(.quote-form[data-live="false"]) .contacts{grid-template-columns:repeat(3,max-content);gap:clamp(28px,6vw,96px)}
 
 /* Enquiry */
 .enq-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(36px,6vw,96px);align-items:start}
@@ -146,6 +149,7 @@ input:focus,textarea:focus{outline:2px solid var(--red);outline-offset:0;backgro
   .nav .nav-cta{margin-top:18px;border:0;min-height:54px}
 }
 @media (max-width:699px){
+  .enq-grid:has(.quote-form[data-live="false"]) .contacts{grid-template-columns:1fr}
   body{font-size:17px}
   .hero{height:calc(100svh - var(--header));min-height:540px;max-height:860px}
   .hero h1{font-size:clamp(2.1rem,10vw,2.8rem)}

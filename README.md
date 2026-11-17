@@ -15,9 +15,9 @@ tools/make-images.py    rebuilds the hero crops from the original photos (blurs 
 ## Current status
 
 - **Not live.** bhscaffolding.co.uk still serves the previous site.
-- **Quote form:** the interface is finished, but online sending is switched off
-  (`data-live="false"` on the form). Visitors who submit are told clearly that it has not
-  been sent and are given a pre-filled email to send instead. Nothing pretends to succeed.
+- **Quote form:** built, but hidden while `data-live="false"`. Until online sending is set up,
+  the enquiry section shows the phone, WhatsApp and email contacts only. Set `data-live="true"`
+  after the Resend setup below and the form appears.
 
 ## How the current live site is hosted (as found)
 
